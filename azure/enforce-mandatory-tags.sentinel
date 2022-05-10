@@ -14,15 +14,15 @@ mandatory_tags = [
   "location",
 ]
 
-# Get all Azure Resources
-allAzureResources = plan.find_resources("azurerm_")
+# Get all Azure VMs
+allAzureVMs = plan.find_resources("azurerm_virtual_machine")
 
-# Filter to Azure Resources with violations
+# Filter to Azure VMs with violations
 # Warnings will be printed for all violations since the last parameter is true
-violatingAzureResources = plan.filter_attribute_not_contains_list(allAzureResources,
+violatingAzureVMs = plan.filter_attribute_not_contains_list(allAzureVMs,
                         "tags", mandatory_tags, true)
 
 #Main rule
 main = rule {
-  length(violatingAzureResources["messages"]) is 0
+  length(violatingAzureVMs["messages"]) is 0
 }
