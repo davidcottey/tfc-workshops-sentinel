@@ -10,19 +10,19 @@ import "tfplan-functions" as plan
 
 ### List of mandatory tags ###
 mandatory_tags = [
-  "Billable",
-  "Department",
+  "name",
+  "location",
 ]
 
-# Get all Azure VMs
-allAzureVMs = plan.find_resources("azurerm_virtual_machine")
+# Get all Azure Resources
+allAzureResources = plan.find_resources("azurerm_")
 
-# Filter to Azure VMs with violations
+# Filter to Azure Resources with violations
 # Warnings will be printed for all violations since the last parameter is true
-violatingAzureVMs = plan.filter_attribute_not_contains_list(allAzureVMs,
+violatingAzureResources = plan.filter_attribute_not_contains_list(allAzureResources,
                         "tags", mandatory_tags, true)
 
 #Main rule
 main = rule {
-  length(violatingAzureVMs["messages"]) is 0
+  length(violatingAzureResources["messages"]) is 0
 }
